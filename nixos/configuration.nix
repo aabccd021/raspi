@@ -1,21 +1,19 @@
 { config, pkgs, lib, ... }: {
-  # NixOS wants to enable GRUB by default
-  boot.loader.grub.enable = false;
 
-  # if you have a Raspberry Pi 2 or 3, pick this:
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  # A bunch of boot parameters needed for optimal runtime on RPi 3b+
   boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [ "cma=256M" ];
     supportedFilesystems = [ "ntfs" ];
-    loader.raspberryPi = {
-      enable = true;
-      version = 3;
-      uboot.enable = true;
-      firmwareConfig = ''
-        gpu_mem=256
-      '';
+    loader = {
+      grub.enable = false;
+      raspberryPi = {
+        enable = true;
+        version = 3;
+        uboot.enable = true;
+        firmwareConfig = ''
+          gpu_mem=256
+        '';
+      };
     };
   };
   environment.systemPackages = with pkgs; [ libraspberrypi vim ];
