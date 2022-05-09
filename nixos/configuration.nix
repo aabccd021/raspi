@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }: {
 
   boot = {
+    cleanTmpDir = true;
     kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [ "cma=256M" ];
     supportedFilesystems = [ "ntfs" ];
@@ -28,13 +29,16 @@
 
   # Preserve space by sacrificing documentation and history
   documentation.nixos.enable = false;
-  nix.gc.automatic = true;
-  nix.gc.options = "--delete-older-than 30d";
-  boot.cleanTmpDir = true;
+  nix.gc = {
+    automatic = true;
+    options = "--delete-older-than 30d";
+  };
 
   # Configure basic SSH access
-  services.openssh.enable = true;
-  services.openssh.permitRootLogin = "yes";
+  services.openssh = {
+    enable = true;
+    permitRootLogin = "yes";
+  }
 
   networking = {
     nameservers = [ "8.8.8.8" ];
