@@ -38,7 +38,7 @@
   services.openssh = {
     enable = true;
     permitRootLogin = "yes";
-  }
+  };
 
   networking = {
     nameservers = [ "8.8.8.8" ];
